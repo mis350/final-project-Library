@@ -1,0 +1,7 @@
+{% extends "librarian/base.html" %}
+{% block content %}
+    <div class=" bg bg-white">
+        <h1>{{ request.user }} {{ message }} </h1>
+        <a href="{% url 'index' %}"><button class="btn btn-rounded btn-sm my-0 bg-steel" type="submit">Okay</button></a>
+    </div>
+{% endblock %}

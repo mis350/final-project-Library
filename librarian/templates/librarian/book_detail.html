@@ -1,0 +1,60 @@
+{% extends "librarian/base.html" %}
+{% block content %}
+    <article class="media content-section">
+        <div class="media-body">
+            <div class="article-metadata">
+                <a class="mr-2" href="#">{{ book.title }}</a>
+                <small class="text-muted">Genre: {{ book.genre }}</small>
+                <!-- {% if object.lib_author == user.username %}
+                <a class="btn btn-sm mt-1 mb-1" href="{% url 'book-update' object.id %}"><i class="far fa-edit fa-lg"></i></a>
+                <a class="btn btn-sm mt-1 mb-1" href="{% url 'book-delete' object.id %}"><i class="far fa-trash-alt fa-lg text-danger"></i></a>
+                {% endif %} -->
+            </div>
+            <h2 class="article-title">{{ book.title }} ({{ book.author}})</h2>
+            <p class="article-content">ISBN: {{ book.isbn }}</p>
+            <p class="article-content">Available quantity: {{ book.quantity }}</p>
+            <p class="article-content">Book Summary: {{ book.summary }}</p>
+
+            {% if book.quantity and not user.is_superuser %}
+                <br>
+                <a class="btn btn-primary" href="{% url 'request-issue' pk=book.id %}">Issue</a>
+            {% endif %} 
+
+
+        </div>
+
+        {% if rr|length == 0 %}
+            <a href="{% url 'rating_update' pk=book.id %}">Give review about book</a>
+        {% endif %}
+
+        <div class="card">
+
+            {% if reviews %}
+                {% for r in reviews %}
+                    {% if r.review is  not "none" %}
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-10">
+                                    <p>
+                                        <a class="float-left"
+                                        href="{% url 'student-detail' pk=r.student.id %} "><strong>{{ r.student.name }}</strong></a>
+                                    </p>
+                                    <div class="clearfix"></div>
+                                    <p>{{ r.review }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    <!-- {% elif r.review is "none" %}
+                        <a href="{% url 'rating_update' pk=r.id %}">Give review about book</a> -->
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                No reviews yet
+            {% endif %}
+        </div>
+                    
+        
+    </article>
+
+{% endblock content %}
+

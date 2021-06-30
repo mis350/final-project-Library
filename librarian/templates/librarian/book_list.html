@@ -1,0 +1,36 @@
+{% extends "librarian/base.html" %}
+
+{% block content %}
+    <h1>Issued Books</h1>
+
+    {% if bor_list %}
+
+        <table class="table table-borderless">
+            <thead class="border-bottom font-weight-bold">
+                <tr>
+                    <td>Book Name</td>
+                    <td>Book Author</td>
+                    <td>Genre</td>
+                    <td>Issue Date</td>
+                    <td>Return Date</td>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for bor in bor_list %}
+                    <tr>
+                        <td>
+                            <a class="article-title" href="{{ book.get_absolute_url }}">{{ bor.book.title }}</a>
+                        </td>
+                        <td>{{ bor.book.author }}</td>
+                        <td>{{ bor.book.genre }}</td>
+                        <td>{{ bor.issue_date }}</td>
+                        <td>{{ bor.return_date }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+      <p class=" bg bg-white">There are no books.</p>
+    {% endif %}       
+{% endblock %}

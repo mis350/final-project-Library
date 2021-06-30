@@ -1,0 +1,55 @@
+{% extends "librarian/base.html" %}
+{% block content %}
+
+    <main role="main" class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <h1>Welcome {{ request.user }} !!!</h1>
+            </div>
+        </div>
+    </main>
+
+    <!-- <form class="form" id="searchform" action="{% url 'search_results' %}" method="get">
+        <div class="form-group">
+        <input type="text" class="col-5  form-control-lg"  placeholder="enter book title or something " name="q" type="text"/>
+        <button type="button"  class="btn btn-success form-control-lg" onclick="searchform.submit()">Search</button>
+            </div>
+    </form> -->
+
+    <table class="table table-borderless">
+        <thead class="border-bottom font-weight-bold">
+            <tr>
+                <td>Book Name</td>
+                <td>Book Author</td>
+                <td>Genre</td>
+                <td>Quantity</td>
+                <td>Category</td>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for book in books %}
+                <tr>
+                    <td>
+                        <a class="article-title" href="{% url 'book-detail' book.id %}">{{ book.title }}</a>
+                    </td>
+                    <td>{{book.author}}</td>
+                    <td>{{ book.genre }}</td>
+                    <td>{{ book.quantity }}</td>
+                    <td>{{ book.category }}</td>
+                    {% if user.is_superuser %}
+                        <td>
+                            <a class="btn btn-sm mt-1 mb-1" href="{% url 'book-update' book.id %}">Edit</a>
+                        </td>
+                        <td>
+                            <a class="btn btn-sm mt-1 mb-1" href="{% url 'book-delete' book.id %}">Delete</a>
+                        </td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+
+{% endblock content %}
+
